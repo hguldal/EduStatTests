@@ -1,2 +1,0 @@
-StatTests
-__init__
