@@ -14,27 +14,35 @@ class EduStatTests:
     self.data = pd.read_csv(ExcelPath)
 
   def IndependedTTest(self,variable1,variable2):
-    data,groups=[],[]
-    
+    dataCollection=dict()
+   
     if self.data is None:
       raise Exception("No data loaded")
 
     if len(self.data[variable1].value_counts().index)>2:
       raise Exception("The number of groups cannot be greater than 2")
 
-    for idx in self.data[variable1].value_counts().index:
-      data.append(self.data.query(variable1 + "==" + str(idx))[variable2])
-      groups.append(int(idx))
+    for idx in self.data[variable1].value_counts().index:  
+      dataCollection[idx]={"data":self.data.query(variable1 + "==" + str(idx))[variable2]}
+    
+    rawData=list()
+    for item in dataCollection:
+      rawData.append(dataCollection[item]["data"])
 
-    data1,data2=data[0],data[1]
+    data1,data2=rawData[0],rawData[1]
     result1 = ttest_ind(data1, data2)
     result2=levene(data1, data2)
     result3= ttest_ind(data1, data2,equal_var = False)
     dofF=len(data1)+len(data2)-2
 
+    for item in dataCollection:
+      dataCollection[item]["N"]=dataCollection[item]["data"].count()
+      dataCollection[item]["Mean"]=dataCollection[item]["data"].mean()
+      dataCollection[item]["StdDev"]=dataCollection[item]["data"].std()
+    
     dictReturn={
         "groupStats":{"N":self.data[variable1].value_counts().to_dict()},
-
+        
         "equalVariancesAssumed":{
             "ttestForEqualityOfMeans": {
                 "t":result1[0],
