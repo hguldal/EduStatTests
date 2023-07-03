@@ -13,6 +13,27 @@ class EduStatTests:
   def LoadFromExcel(self,ExcelPath):
     self.data = pd.read_csv(ExcelPath)
 
+""" Independent T-Test
+Parameters:
+================================================== 
+  self:       Instance of the EduStatTests class
+              
+
+  variable1*: string                
+              Independent variable (X) 
+              Name of DataFrame column object
+
+  variable2*: string
+              Dependent variable (Y)
+              Name of DataFrame column object
+  
+  *: Required Parameter
+
+Return:
+===================================================
+Type: dictionary
+Description: T-Test Stats
+"""
   def IndTTest(self,variable1,variable2):
     dataCollection=dict()
 
@@ -51,7 +72,6 @@ class EduStatTests:
             "df":dofF,
             "sigTwoTailed":result1[1]
         },
-        
         "LeveneTest":
         {
          "F":result2[0],
