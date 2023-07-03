@@ -14,7 +14,7 @@ class EduStatTests:
     self.data = pd.read_csv(ExcelPath)
 
 """ Independent T-Test
-Parameters:
+Parameters (Input):
 ================================================== 
   self:       Instance of the EduStatTests class
               
@@ -29,32 +29,46 @@ Parameters:
   
   *: Required Parameter
 
-Return:
+Return (Output):
 ===================================================
 Type: dictionary
 Description: T-Test Stats
 """
   def IndTTest(self,variable1,variable2):
-    dataCollection=dict()
-
+    
     if self.data is None:
       raise Exception("No data loaded")
 
     if len(self.data[variable1].value_counts().index)>2:
       raise Exception("The number of groups cannot be greater than 2")
-
+    
+    # Create a dictionary object for the store data and etc.
+    dataCollection=dict()
+    
+    # Extract the groups from DataFrame and put into the dataCollection dictionary object
     for idx in self.data[variable1].value_counts().index:
       dataCollection[idx]={"data":self.data.query(variable1 + "==" + str(idx))[variable2]}
 
+    # Extract the raw data from dictionary object to pass scipy.stats functions
     rawData=list()
     for item in dataCollection:
       rawData.append(dataCollection[item]["data"])
 
     data1,data2=rawData[0],rawData[1]
+    
+    # Calculate Indepentend T-Test
     result1 = ttest_ind(data1, data2)
+    
+    # Calculate Levent Test
     result2=levene(data1, data2,center='mean')
+
+    # Calculate Indepentend Welch Test
     result3= ttest_ind(data1, data2,equal_var = False)
+    
+    # Calculate Degree of Freedom score
     dofF=len(data1)+len(data2)-2
+
+    # Calculate group descriptive statistics
     groupStats=list()
     for item in dataCollection:
       group=dict()
@@ -64,24 +78,31 @@ Description: T-Test Stats
       }
       groupStats.append(group)
     
+    # Create  dictionary object(dictReturn) to return stats 
     dictReturn={
+        # Groups statistics
         "groupStats":groupStats,
-
+        
+        # T-Test results
         "TTest":{
             "t":result1[0],
             "df":dofF,
             "sigTwoTailed":result1[1]
         },
+
+        # Levene test results
         "LeveneTest":
         {
          "F":result2[0],
          "sigTwoTailed":result2[1]
             
         },
+
+        # Welch test results
         "WelchTest":{
             "t":result3[0],
             "sigTwoTailed":result3[1]
         }
     }
-
+    
     return dictReturn
