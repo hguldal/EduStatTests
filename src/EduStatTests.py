@@ -9,6 +9,9 @@ class EduStatTests:
 
   def LoadFromCSV(self,CSVPath):
     self.data = pd.read_csv(CSVPath)
+  
+  def LoadFromDict(self,dictData):
+    self.data = pd.DataFrame(dictData)
 
   def LoadFromExcel(self,ExcelPath):
     self.data = pd.read_csv(ExcelPath)
