@@ -71,7 +71,8 @@ def IndTTest(df,variable1,variable2):
     group=dict()
     group[item]={"N":dataCollection[item]["data"].count(),
                    "Mean":dataCollection[item]["data"].mean(),
-                   "StdDev":dataCollection[item]["data"].std()
+                   "StdDev":dataCollection[item]["data"].std(),
+                   "StdErr": dataCollection[item]["data"].sem()
     }
     groupStats.append(group)
 

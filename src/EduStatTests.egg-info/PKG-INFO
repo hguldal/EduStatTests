@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: EduStatTests
-Version: 0.0.4
+Version: 0.1.4
 Author-email: Hakan Güldal <hguldal@gmail.com>
 Project-URL: Homepage, https://github.com/hguldal/EduStatTests
 Project-URL: Bug Tracker, https://github.com/hguldal/EduStatTests/issues
@@ -12,4 +12,4 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 
 # EduStatTests
-Python library for statistical analysis in educational research
+Python package for educational statistical analysis
