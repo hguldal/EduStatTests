@@ -10,10 +10,12 @@ You can perform the following tests with EduStatTests.
 
  - Independent Samples T-Test
 
+EduStatTests uses Pandas DataFrame as data format. You can use Excel, CSV format or Python dictionary object while creating the DataFrame.
 
 ## Tests
 
 **Independent  Samples T-Test**
+
 You can specify data in different formats as CSV or Python Dictionary. In the code example below, the data is used in Python dictionary format.
 
     dataDict={
