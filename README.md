@@ -18,6 +18,7 @@ EduStatTests uses Pandas DataFrame as data format. You can use Excel, CSV format
 
 You can specify data in different formats as CSV or Python Dictionary. In the code example below, the data is used in Python dictionary format.
 
+	from EduStatTests import *
     dataDict={
     "Gender": [1,1,0,0,1,1,0,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,1,1,1,0,1,1,0,1,0,0],
     "Attitude":[1,2,1,3,4,1,1,3,4,1,3,1,2,1,4,1,4,1,4,3,3,1,1,1,1,1,3,1,3,1,1,1,1,1,1,1,1,4,3,1,4,4,1,2,1,1,1,1,1,2,4,1,4,2,1,4,1,4,1,1,1]
