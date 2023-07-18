@@ -3,16 +3,29 @@ EduStatTests is free Python package for educational statistical analysis.
 
 ## Installing
 
+You can install EduStatTests using the Python package manager
+    
+**Requirements**
+    
+- NumPy
+- Pandas
+- SciPy
+
+**Package Manager Command**
+
     pip install EduStatTests
     
 ## How to Use EduStatTests
-You can perform the following tests with EduStatTests.
 
- - Independent Samples T-Test
+
 
 EduStatTests uses Pandas DataFrame as data format. You can use Excel, CSV format or Python dictionary object while creating the DataFrame.
 
 ## Tests
+
+You can perform the following tests with EduStatTests.
+
+ - Independent Samples T-Test
 
 **Independent  Samples T-Test**
 
