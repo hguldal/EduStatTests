@@ -1,9 +1,10 @@
 ## Welcome to EduStatTests
 EduStatTests is free Python package for educational statistical analysis.
 
+
 ## Installing
 
-You can install EduStatTests using the Python package manager
+You can install EduStatTests using the Python Package Index (PyPI)
     
 **Requirements**
     
@@ -11,21 +12,39 @@ You can install EduStatTests using the Python package manager
 - Pandas
 - SciPy
 
-**Package Manager Command**
+**PyPI Command**
 
     pip install EduStatTests
     
 ## How to Use EduStatTests
 
-
+## Data
 
 EduStatTests uses Pandas DataFrame as data format. You can use Excel, CSV format or Python dictionary object while creating the DataFrame.
+
+**Loading data from CSV files**
+
+CSV is a widely used data exchange format. In EduStatTests, the **LoadFromCSV** function is used to read and load CSV files into the DataFrame object.
+
+The code below shows how to load data from CSV file into DataFrame object in EduStatTests.
+
+    data=LoadFromCSV("drive/MyDrive/Datasets/test/test_data.csv")
+
+On the other hand, you can also load your data into the DataFrame in Python dictionary form by using the **LoadFromDict** function. The code below shows how to do this.
+
+    dataDict={
+    "Gender": [1,1,0,0,1,1,0,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,1,1,1,0,1,1,0,1,0,0],
+    "Attitude":[1,2,1,3,4,1,1,3,4,1,3,1,2,1,4,1,4,1,4,3,3,1,1,1,1,1,3,1,3,1,1,1,1,1,1,1,1,4,3,1,4,4,1,2,1,1,1,1,1,2,4,1,4,2,1,4,1,4,1,1,1]
+    }
+    
+	data=LoadFromDict(dataDict)
 
 ## Tests
 
 You can perform the following tests with EduStatTests.
 
  - Independent Samples T-Test
+
 
 **Independent  Samples T-Test**
 
