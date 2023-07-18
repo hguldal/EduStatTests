@@ -30,7 +30,9 @@ The code below shows how to load data from CSV file into DataFrame object in Edu
 
     data=LoadFromCSV("drive/MyDrive/Datasets/test/test_data.csv")
 
-On the other hand, you can also load your data into the DataFrame in Python dictionary form by using the **LoadFromDict** function. The code below shows how to do this.
+**Loading data from Python Dictionary**
+
+You can also load your data into the DataFrame in Python dictionary form by using the **LoadFromDict** function. The code below shows how to do this.
 
     dataDict={
     "Gender": [1,1,0,0,1,1,0,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,1,1,1,0,1,1,0,1,0,0],
