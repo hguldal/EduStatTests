@@ -11,10 +11,48 @@ def LoadFromDict(dictData):
 def LoadFromExcel(ExcelPath):
     return pd.read_csv(ExcelPath)
 
+""" Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's Normality Tests
+Parameters (Input):
+===================================================================================
+df        : Pandas DataFrame
+
+variable*: string
+                Independent variable (X)
+                Name of DataFrame column object
+
+*: Required Parameter
+
+Return (Output):
+===================================================================================
+Type: dictionary
+Description: Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's tests normality stats
+"""
+def Normality(df,variable):
+  
+  data=df[variable]
+  
+  #Perform to Kolmogorov-Smirnov normality test
+  s1,p1=kstest(data, 'norm')
+  
+  #Perform to Shapiro normality test
+  s2,p2=shapiro(data)
+  
+  #Perform to D' Agostino's normality test
+  s3,p3=normaltest(data) 
+  
+  #return the results 
+  return {
+      'KolmogorovSmirnov':{'stat':s1,'p':p1},
+      'ShapiroWilk':{'stat':s2,'p':p2},
+      'DAgostino':  {'stat':s3,'p':p3}
+          }
+
+  return True
+
 """ Independent T-Test
 Parameters (Input):
 ==================================================
-df        : Pandas DataFrame 2xN (Two Columns x N Row)
+df        : Pandas DataFrame
 
 variable1*: string
                 Independent variable (X)
