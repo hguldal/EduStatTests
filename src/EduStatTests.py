@@ -11,6 +11,37 @@ def LoadFromDict(dictData):
 def LoadFromExcel(ExcelPath):
     return pd.read_csv(ExcelPath)
 
+def Correlation(df):
+
+  pearsonCrls,spearmanCrls,kendallCrls =[]
+ 
+  for column1 in df.columns:
+   
+    for column2 in df.columns:
+ 
+      stat,p=pearsonr(df[column1], df[column2])
+   
+      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+   
+      pearsonCrls.append(resObj)
+
+      stat, p = spearmanr(df[column1], df[column2])
+   
+      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+   
+      spearmanCrls.append(resObj)
+
+      stat, p = kendalltau(df[column1], df[column2])
+      
+      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+      
+      kendallCrls.append(resObj)
+  
+  return {
+      "Pearsons":pearsonCrls,
+      "Spearmans":spearmanCrls,
+      "Kendalls":kendallCrls}
+
 """ Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's Normality Tests
 Parameters (Input):
 ===================================================================================
