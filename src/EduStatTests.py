@@ -13,7 +13,7 @@ def LoadFromExcel(ExcelPath):
 
 def Correlation(df):
 
-  pearsonCrls,spearmanCrls,kendallCrls =[]
+  pearsonCrls,spearmanCrls,kendallCrls =[],[],[]
  
   for column1 in df.columns:
    
@@ -45,11 +45,7 @@ def Correlation(df):
 """ Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's Normality Tests
 Parameters (Input):
 ===================================================================================
-df        : Pandas DataFrame
-
-variable*: string
-                Independent variable (X)
-                Name of DataFrame column object
+df*        : Pandas DataFrame
 
 *: Required Parameter
 
@@ -58,27 +54,55 @@ Return (Output):
 Type: dictionary
 Description: Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's tests normality stats
 """
-def Normality(df,variable):
+def Normality(df):
   
-  data=df[variable]
-  
-  #Perform to Kolmogorov-Smirnov normality test
-  s1,p1=kstest(data, 'norm')
-  
-  #Perform to Shapiro normality test
-  s2,p2=shapiro(data)
-  
-  #Perform to D' Agostino's normality test
-  s3,p3=normaltest(data) 
-  
+  kolmogorovSmirnov,shapiroWilk,dAgostino =[],[],[]
+
+  for column in df.columns:
+
+    data=df[column]
+    
+    #Perform to Kolmogorov-Smirnov normality test
+    stat,p=kstest(data, 'norm')
+
+    resObj={
+      column:{"normality":stat,
+              "p":p
+              }
+            }
+
+    kolmogorovSmirnov.append(resObj)
+    
+    #Perform to Shapiro normality test
+    stat,p=shapiro(data)
+
+    resObj={
+      column:{"normality":stat,
+              "p":p
+            }
+      }
+
+    shapiroWilk.append(resObj)
+    
+    #Perform to D' Agostino's normality test
+    stat,p=normaltest(data) 
+
+    resObj={
+      column:{
+        "normality":stat,
+        "p":p
+        }
+      }
+
+    dAgostino.append(resObj)
+    
+
   #return the results 
   return {
-      'KolmogorovSmirnov':{'stat':s1,'p':p1},
-      'ShapiroWilk':{'stat':s2,'p':p2},
-      'DAgostino':  {'stat':s3,'p':p3}
-          }
-
-  return True
+      'KolmogorovSmirnov':kolmogorovSmirnov,
+      'ShapiroWilk':shapiroWilk,
+      'DAgostino':  dAgostino
+      }
 
 """ Independent T-Test
 Parameters (Input):
