@@ -11,7 +11,23 @@ def LoadFromDict(dictData):
 def LoadFromExcel(ExcelPath):
     return pd.read_csv(ExcelPath)
 
+""" Pearson's, Spearman's and  D'Agostino's correlation test
+Parameters (Input):
+===================================================================================
+df*        : Pandas DataFrame
+
+*: Required Parameter
+
+Return (Output):
+===================================================================================
+Type: dictionary
+Description: Pearson's, Spearman's and  Kendall's correlation tests stats
+"""
+
 def Correlation(df):
+
+  if df is None:
+    raise Exception("No data loaded")
 
   pearsonCrls,spearmanCrls,kendallCrls =[],[],[]
  
@@ -21,26 +37,44 @@ def Correlation(df):
  
       stat,p=pearsonr(df[column1], df[column2])
    
-      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+      resObj={
+        column1 + "_" + column2:{
+          "correlation":stat,
+          "p":p
+          }
+        }
    
       pearsonCrls.append(resObj)
 
       stat, p = spearmanr(df[column1], df[column2])
    
-      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+      resObj={
+        column1 + "_" + column2:{
+        "correlation":stat,
+        "p":p
+        }
+      }
    
       spearmanCrls.append(resObj)
 
       stat, p = kendalltau(df[column1], df[column2])
       
-      resObj={column1 + "_" + column2:{"correlation":stat,"p":p}}
+      resObj={
+        column1 + "_" + column2:
+        {
+          "correlation":stat,
+          "p":p
+          }
+      }
       
       kendallCrls.append(resObj)
   
   return {
+      "TestName":"correlation",
       "Pearsons":pearsonCrls,
       "Spearmans":spearmanCrls,
-      "Kendalls":kendallCrls}
+      "Kendalls":kendallCrls
+      }
 
 """ Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's Normality Tests
 Parameters (Input):
@@ -55,6 +89,9 @@ Type: dictionary
 Description: Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's tests normality stats
 """
 def Normality(df):
+
+  if df is None:
+    raise Exception("No data loaded")
   
   kolmogorovSmirnov,shapiroWilk,dAgostino =[],[],[]
 
@@ -66,10 +103,11 @@ def Normality(df):
     stat,p=kstest(data, 'norm')
 
     resObj={
-      column:{"normality":stat,
-              "p":p
-              }
-            }
+      column:{
+          "normality":stat,
+          "p":p
+        }
+      }
 
     kolmogorovSmirnov.append(resObj)
     
@@ -77,9 +115,10 @@ def Normality(df):
     stat,p=shapiro(data)
 
     resObj={
-      column:{"normality":stat,
-              "p":p
-            }
+      column:{
+        "normality":stat,
+        "p":p
+        }
       }
 
     shapiroWilk.append(resObj)
@@ -99,6 +138,7 @@ def Normality(df):
 
   #return the results 
   return {
+      'TestName':'normality',
       'KolmogorovSmirnov':kolmogorovSmirnov,
       'ShapiroWilk':shapiroWilk,
       'DAgostino':  dAgostino
@@ -171,6 +211,7 @@ def IndTTest(df,variable1,variable2):
 
   # Create  dictionary object(dictReturn) to return stats
   dictReturn={
+        "TestName":"indt",
         # Groups statistics
         "groupStats":groupStats,
 
