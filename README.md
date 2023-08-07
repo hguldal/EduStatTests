@@ -46,6 +46,9 @@ You can also load your data into the DataFrame in Python dictionary form by usin
 You can perform the following tests with EduStatTests.
 
  - Independent Samples T-Test
+ - Mann-Whitney U Test
+ - Correlation Tests (Pearson's, Spearman's and  Kendall's)
+ - Normality Tests (Kolmogorov-Smirnov, Shapiro-Wilk and  D'Agostino's)
 
 
 **Independent  Samples T-Test**
