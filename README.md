@@ -20,11 +20,11 @@ You can install EduStatTests using the Python Package Index (PyPI)
 
 ## Data
 
-EduStatTests uses Pandas DataFrame as data format. You can use Excel, CSV format or Python dictionary object while creating the DataFrame.
+EduStatTests uses Pandas DataFrame as data format. You can use CSV format or Python dictionary object while creating the DataFrame.
 
 **Loading data from CSV files**
 
-CSV is a widely used data exchange format. In EduStatTests, the **LoadFromCSV** function is used to read and load CSV files into the DataFrame object.
+Comma Seperates Values (CSV) is a widely used data exchange format. In EduStatTests, the **LoadFromCSV** function is used to read and load CSV files into the DataFrame object.
 
 The code below shows how to load data from CSV file into DataFrame object in EduStatTests.
 
@@ -52,8 +52,7 @@ You can perform the following tests with EduStatTests.
 
 
 **Independent  Samples T-Test**
-
-You can specify data in different formats as CSV or Python Dictionary. In the code example below, the data is used in Python dictionary format.
+You can perform Independent T-Test using IndTTest function in EduStatTests. **IndTTest** function has three parameters. First paramater is Pandas DataFrame contain your data. 
 
 	from EduStatTests import *
     dataDict={
