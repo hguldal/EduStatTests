@@ -238,3 +238,79 @@ def IndTTest(df,variable1,variable2):
   }
 
   return dictReturn
+
+
+""" Mann-Whitney U Test
+Parameters (Input):
+==================================================
+df        : Pandas DataFrame
+
+variable1*: string
+                Independent variable (X)
+                Name of DataFrame column object
+
+variable2*: string
+                Dependent variable (Y)
+                Name of DataFrame column object
+
+*: Required Parameter
+
+Return (Output):
+===================================================
+Type: dictionary
+Description: Mann-Whitney U Test Stats
+"""
+def MannWhitneyU(df,variable1,variable2):
+
+  if df is None:
+    raise Exception("No data loaded")
+
+  if len(df[variable1].value_counts().index)>2:
+    raise Exception("The number of groups cannot be greater than 2")
+
+  # Create a dictionary object for the store data and etc.
+  dataCollection=dict()
+
+  # Extract the groups from DataFrame and put into the dataCollection dictionary object
+  for idx in df[variable1].value_counts().index:
+    dataCollection[idx]={"data":df.query(variable1 + "==" + str(idx))[variable2]}
+
+  # Extract the raw data from dictionary object to pass scipy.stats functions
+  rawData=list()
+  for item in dataCollection:
+    rawData.append(dataCollection[item]["data"])
+
+  data1,data2=rawData[0],rawData[1]
+
+  # Calculate Mann-Whitney U Test
+  result = mannwhitneyu(data1, data2)
+
+  # Calculate Degree of Freedom score
+  dofF=len(data1)+len(data2)-2
+
+  # Calculate group descriptive statistics
+  groupStats=list()
+  for item in dataCollection:
+    group=dict()
+    group[item]={"N":dataCollection[item]["data"].count(),
+                   "Mean":dataCollection[item]["data"].mean(),
+                   "StdDev":dataCollection[item]["data"].std(),
+                   "StdErr": dataCollection[item]["data"].sem()
+    }
+    groupStats.append(group)
+
+  # Create  dictionary object(dictReturn) to return stats
+  dictReturn={
+        "TestName":"mannwhitneyu",
+        # Groups statistics
+        "groupStats":groupStats,
+
+        # Mann-Whitney U Test results
+        "MannWhitneyUTest":{
+            "u":result[0],
+            "df":dofF,
+            "sigTwoTailed":result[1]
+        }
+  }
+
+  return dictReturn
