@@ -314,3 +314,34 @@ def MannWhitneyU(df,variable1,variable2):
   }
 
   return dictReturn
+
+def Output(testResult,destination):
+ 
+  import uuid
+
+  outputFileTemplateName=''
+  outputType=''
+ 
+  if testResult['TestName']=='indt':
+    outputFileTemplateName='indttest.html'
+    outputType='IndTTest'
+  
+  templateFile=open('outputs/' + outputFileTemplateName, "rt")
+  outputFileName=outputType + '_' +  str(uuid.uuid4().hex) + '.html'
+  
+  outputFile=open(destination + outputFile,'wt')
+
+  for line in templateFile:
+      newLine=line.replace('{{F}}',str(testResult['LeveneTest']['F']))
+      newLine=line.replace('{{lsig}}',str(testResult['LeveneTest']['sigTwoTailed']))
+      newLine=line.replace('{{t}}',str(testResult['TTest']['t']))
+      newLine=line.replace('{{df}}',str(testResult['TTest']['df']))
+      newLine=line.replace('{{tsig2}}',str(testResult['TTest']['sigTwoTailed'])) 
+      
+      newLine=line.replace('{{wt}}',str(testResult['WelchTest']['t'])) 
+      newLine=line.replace('{{wdf}}',str(testResult['WelchTest']['df']))
+      newLine=line.replace('{{wsig2}}',str(testResult['WelchTest']['sigTwoTailed'])) 
+      outputFile.write(newLine)
+
+  templateFile.close()
+  outputFile.close()
