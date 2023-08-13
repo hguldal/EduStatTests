@@ -53,7 +53,7 @@ You can perform the following tests with EduStatTests.
 
 **Independent  Samples T-Test**
 
-You can perform Independent T-Test using IndTTest function in EduStatTests. **IndTTest** function has three parameters. First paramater is Pandas DataFrame contain your data. Second parameter is independent variable name in your data. Third parameter is dependent variable name in your data. The Code below shows how to perform Independent T-Test in EduStatTests. 
+You can perform Independent T-Test using IndTTest function in EduStatTests. **IndTTest** function has three parameters. First paramater is Pandas DataFrame contain your data. Second parameter is independent variable name in your data. Third parameter is dependent variable name in your data. The code below shows how to perform Independent T-Test in EduStatTests. 
 
 	from EduStatTests import *
     dataDict={
@@ -103,5 +103,10 @@ You can perform Independent T-Test using IndTTest function in EduStatTests. **In
     }
 
 ----------
+You can also see analysis results as html file on web browser using **HtmlOutputIndTTest** function. The code below shows how to results were saved as html file format.
+
+    results=IndTTest(dfObj,"Gender","Attitude")
+    
+    HtmlOutputIndTTest(results,"~/Desktop")
 
  
