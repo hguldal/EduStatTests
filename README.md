@@ -104,7 +104,14 @@ You can perform Independent T-Test using IndTTest function in EduStatTests. **In
 
 ----------
 You can also see analysis results as html file on web browser using **HtmlOutputIndTTest** function. The code below shows how to results were saved as html file format.
-
+	
+    from EduStatTests import *
+    dataDict={
+    "Gender": [1,1,0,0,1,1,0,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,1,1,1,0,1,1,0,1,0,0],
+    "Attitude":[1,2,1,3,4,1,1,3,4,1,3,1,2,1,4,1,4,1,4,3,3,1,1,1,1,1,3,1,3,1,1,1,1,1,1,1,1,4,3,1,4,4,1,2,1,1,1,1,1,2,4,1,4,2,1,4,1,4,1,1,1]
+    }
+    
+	dfObj=LoadFromDict(dataDict)
     results=IndTTest(dfObj,"Gender","Attitude")
     
     HtmlOutputIndTTest(results,"~/Desktop")
