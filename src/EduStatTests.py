@@ -203,37 +203,40 @@ def IndTTest(df,variable1,variable2):
   for item in dataCollection:
     group=dict()
     group[item]={"N":dataCollection[item]["data"].count(),
-                   "Mean":dataCollection[item]["data"].mean(),
-                   "StdDev":dataCollection[item]["data"].std(),
-                   "StdErr": dataCollection[item]["data"].sem()
+                   "Mean":round(dataCollection[item]["data"].mean(),3),
+                   "StdDev":round(dataCollection[item]["data"].std(),3),
+                   "StdErr": round(dataCollection[item]["data"].sem(),3)
     }
     groupStats.append(group)
 
   # Create  dictionary object(dictReturn) to return stats
   dictReturn={
         "TestName":"indt",
+        "Ind_Variable":variable1,
+        "Dep_Variable":variable2,
+
         # Groups statistics
         "groupStats":groupStats,
 
         # T-Test results
         "TTest":{
-            "t":result1[0],
+            "t":round(result1[0],3),
             "df":dofF,
-            "sigTwoTailed":result1[1]
+            "sigTwoTailed":round(result1[1],3)
         },
 
         # Levene test results
         "LeveneTest":
         {
-         "F":result2[0],
-         "sigTwoTailed":result2[1]
+         "F":round(result2[0],3),
+         "sigTwoTailed":round(result2[1],3)
 
         },
 
         # Welch test results
         "WelchTest":{
-            "t":result3[0],
-            "sigTwoTailed":result3[1]
+            "t":round(result3[0],3),
+            "sigTwoTailed":round(result3[1],3)
         }
   }
 
@@ -315,32 +318,43 @@ def MannWhitneyU(df,variable1,variable2):
 
   return dictReturn
 
-def Output(testResult,destination):
+""" Html output for the Independent Samples T-Test Results  
+Parameters (Input):
+==================================================
+testResult*        : Python dictionary returning from IndTTest function 
+
+destination*: string
+                
+              Destination path for html file
+
+*: Required Parameter
+
+Return 
+No return value:
+"""
+
+def HtmlOutputIndTTest(testResult,destination):
  
   import uuid
 
-  outputFileTemplateName=''
-  outputType=''
- 
-  if testResult['TestName']=='indt':
-    outputFileTemplateName='indttest.html'
-    outputType='IndTTest'
+  outputFileTemplateName='indttest.html'
   
   templateFile=open('outputs/' + outputFileTemplateName, "rt")
-  outputFileName=outputType + '_' +  str(uuid.uuid4().hex) + '.html'
   
-  outputFile=open(destination + outputFile,'wt')
-
+  outputFileName='IndTTest' + '_' +  str(uuid.uuid4().hex) + '.html'
+  outputFile=open(destination + '/' + outputFileName,'wt')
+  
   for line in templateFile:
-      newLine=line.replace('{{F}}',str(testResult['LeveneTest']['F']))
-      newLine=line.replace('{{lsig}}',str(testResult['LeveneTest']['sigTwoTailed']))
-      newLine=line.replace('{{t}}',str(testResult['TTest']['t']))
-      newLine=line.replace('{{df}}',str(testResult['TTest']['df']))
-      newLine=line.replace('{{tsig2}}',str(testResult['TTest']['sigTwoTailed'])) 
-      
-      newLine=line.replace('{{wt}}',str(testResult['WelchTest']['t'])) 
-      newLine=line.replace('{{wdf}}',str(testResult['WelchTest']['df']))
-      newLine=line.replace('{{wsig2}}',str(testResult['WelchTest']['sigTwoTailed'])) 
+      newLine=line
+      newLine=newLine.replace('{{variable1}}',str(testResult['Ind_Variable']))
+      newLine=newLine.replace('{{F}}',str(testResult['LeveneTest']['F']))
+      newLine=newLine.replace('{{lsig}}',str(testResult['LeveneTest']['sigTwoTailed']))
+      newLine=newLine.replace('{{t}}',str(testResult['TTest']['t']))
+      newLine=newLine.replace('{{df}}',str(testResult['TTest']['df']))
+      newLine=newLine.replace('{{tsig2}}',str(testResult['TTest']['sigTwoTailed'])) 
+      newLine=newLine.replace('{{wt}}',str(testResult['WelchTest']['t'])) 
+      newLine=newLine.replace('{{wdf}}',str(testResult['TTest']['df']))
+      newLine=newLine.replace('{{wsig2}}',str(testResult['WelchTest']['sigTwoTailed'])) 
       outputFile.write(newLine)
 
   templateFile.close()
