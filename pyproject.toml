@@ -18,7 +18,7 @@ classifiers = [
 ]
 [tool.setuptools]
 include-package-data = true
-package_data={'': ['outputs']},
+package_data={'': ['outputs']}
 [project.urls]
 "Homepage" = "https://github.com/hguldal/EduStatTests"
 "Bug Tracker" = "https://github.com/hguldal/EduStatTests/issues"
