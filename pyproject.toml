@@ -16,12 +16,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-packages = [
-    {include = "outputs"}
-]
-
-
+[tool.setuptools]
+include-package-data = true
 [project.urls]
 "Homepage" = "https://github.com/hguldal/EduStatTests"
 "Bug Tracker" = "https://github.com/hguldal/EduStatTests/issues"
