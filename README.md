@@ -114,6 +114,6 @@ You can also see analysis results as html file on web browser using **HtmlOutput
 	dfObj=LoadFromDict(dataDict)
     results=IndTTest(dfObj,"Gender","Attitude")
     
-    HtmlOutputIndTTest(results,"~/Desktop")
+    HtmlOutputIndTTest(results)
 
  

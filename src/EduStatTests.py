@@ -333,15 +333,13 @@ Return
 No return value:
 """
 
-def HtmlOutputIndTTest(testResult,destination):
+def HtmlOutputIndTTest(testResult):
  
   import uuid
 
   htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><table><tr><td colspan="9" rowspan="1">Independent Samples Test</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="2" rowspan="1">Levene&rsquo;s Test for Equality of Variances</td><td colspan="3" rowspan="1">T-Test for Equality of Variances</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1">F</td><td colspan="1" rowspan="1">Sig.</td><td colspan="1" rowspan="1">t</td><td colspan="1" rowspan="1">df</td><td colspan="1" rowspan="1">Sig.(2-Tailed)</td></tr><tr><td colspan="1" rowspan="2">' + str(testResult['Ind_Variable']) + '</td><td colspan="1" rowspan="1">EqualVariancesAssumed</td><td colspan="1" rowspan="1">' + str(testResult['LeveneTest']['F']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['LeveneTest']['sigTwoTailed']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['sigTwoTailed']) +'</td></tr><tr><td colspan="1" rowspan="1">EqualVariancesNotAssumed</td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['sigTwoTailed']) +'</td></tr></table></body></html>'
  
-  outputFileName='IndTTest' + '_' +  str(uuid.uuid4().hex) + '.html'
-  outputFile=open(destination + '/' + outputFileName,'wt')
- 
-  outputFile.write(htmlOutput)
+  outputFileName='Output' + '_' +  str(uuid.uuid4().hex) + '.html'
 
-  outputFile.close()
+  with open(outputFileName,'wt') as outputFile:
+    outputFile.write(htmlOutput)
