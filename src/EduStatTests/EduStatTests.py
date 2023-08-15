@@ -337,25 +337,11 @@ def HtmlOutputIndTTest(testResult,destination):
  
   import uuid
 
-  outputFileTemplateName='indttest.html'
-  
-  templateFile=open('outputs/' + outputFileTemplateName, "rt")
-  
+  htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1pxblacksolid;}</style></head><body><table><tr><tdcolspan="9"rowspan="1">IndependentSamplesTest</td></tr><tr><tdcolspan="2"rowspan="1"></td><tdcolspan="2"rowspan="1">Levene&rsquo;sTestforEqualityofVariances</td><tdcolspan="3"rowspan="1">T-TestforEqualityofVariances</td></tr><tr><tdcolspan="2"rowspan="1"></td><tdcolspan="1"rowspan="1">F</td><tdcolspan="1"rowspan="1">Sig.</td><tdcolspan="1"rowspan="1">t</td><tdcolspan="1"rowspan="1">df</td><tdcolspan="1"rowspan="1">Sig.(2-Tailed)</td></tr><tr><tdcolspan="1"rowspan="2">' + str(testResult['Ind_Variable']) + '</td><tdcolspan="1"rowspan="1">EqualVariancesAssumed</td><tdcolspan="1"rowspan="1">' + str(testResult['LeveneTest']['F']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['LeveneTest']['sigTwoTailed']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['TTest']['t']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['TTest']['df']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['TTest']['sigTwoTailed']) +'</td></tr><tr><tdcolspan="1"rowspan="1">EqualVariancesNotAssumed</td><tdcolspan="1"rowspan="1"></td><tdcolspan="1"rowspan="1"></td><tdcolspan="1"rowspan="1">'+ str(testResult['WelchTest']['t']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['TTest']['df']) +'</td><tdcolspan="1"rowspan="1">'+ str(testResult['WelchTest']['sigTwoTailed']) +'</td></tr></table></body></html>'
+ 
   outputFileName='IndTTest' + '_' +  str(uuid.uuid4().hex) + '.html'
   outputFile=open(destination + '/' + outputFileName,'wt')
-  
-  for line in templateFile:
-      newLine=line
-      newLine=newLine.replace('{{variable1}}',str(testResult['Ind_Variable']))
-      newLine=newLine.replace('{{F}}',str(testResult['LeveneTest']['F']))
-      newLine=newLine.replace('{{lsig}}',str(testResult['LeveneTest']['sigTwoTailed']))
-      newLine=newLine.replace('{{t}}',str(testResult['TTest']['t']))
-      newLine=newLine.replace('{{df}}',str(testResult['TTest']['df']))
-      newLine=newLine.replace('{{tsig2}}',str(testResult['TTest']['sigTwoTailed'])) 
-      newLine=newLine.replace('{{wt}}',str(testResult['WelchTest']['t'])) 
-      newLine=newLine.replace('{{wdf}}',str(testResult['TTest']['df']))
-      newLine=newLine.replace('{{wsig2}}',str(testResult['WelchTest']['sigTwoTailed'])) 
-      outputFile.write(newLine)
+ 
+  outputFile.write(htmlOutput)
 
-  templateFile.close()
   outputFile.close()
