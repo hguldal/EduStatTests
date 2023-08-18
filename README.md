@@ -5,6 +5,7 @@ EduStatTests is free Python package for educational statistical analysis.
 ## Installing
 
 You can install EduStatTests using the Python Package Index (PyPI)
+
     
 **Requirements**
     
