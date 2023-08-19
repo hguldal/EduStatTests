@@ -290,20 +290,18 @@ def MannWhitneyU(df,variable1,variable2):
   # Calculate Mann-Whitney U Test
   result = mannwhitneyu(data1, data2)
 
-  # Calculate Degree of Freedom score
-  dofF=len(data1)+len(data2)-2
+  # Calculate Wilcoxon Signed-Rank Test
+  result2=wilcoxon(data1, data2)
 
-  # Calculate group descriptive statistics
-  groupStats=list()
+  ranks=list()
   for item in dataCollection:
     group=dict()
     group={"Group":item,
               "N":dataCollection[item]["data"].count(),
-                   "Mean":dataCollection[item]["data"].mean(),
-                   "StdDev":dataCollection[item]["data"].std(),
-                   "StdErr": dataCollection[item]["data"].sem()
+                   "MeanRank":dataCollection[item]["data"].rank(),
+                   "SumOfRanks": dataCollection[item]["data"].rank()*dataCollection[item]["data"].count()
     }
-    groupStats.append(group)
+    ranks.append(group)
 
   # Create  dictionary object(dictReturn) to return stats
   dictReturn={
@@ -311,14 +309,18 @@ def MannWhitneyU(df,variable1,variable2):
         "Ind_Variable":variable1,
         "Dep_Variable":variable2,
 
-       # Groups statistics
-        "groupStats":groupStats,
+       # Ranks
+        "ranks":ranks,
 
         # Mann-Whitney U Test results
         "MannWhitneyUTest":{
             "u":result[0],
-            "df":dofF,
             "sigTwoTailed":result[1]
+        },
+        # Wilcoxon Signed-Rank Test
+        "Wilcoxon":{
+            "w":result2[0],
+            "sigTwoTailed":result2[1]
         }
   }
 
@@ -349,4 +351,14 @@ def HtmlOutputIndTTest(testResult):
 
   with open(outputFileName,'wt') as outputFile:
     outputFile.write(htmlOutput)
-  
+
+def HtmlOutputMannWUTest(testResult):
+
+  import uuid
+
+  htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><h3>Mann Whitney Test</h3> <br>Ranks<table><thead><tr><th></th><th>Group</th><th>N</th><th>Mean Rank</th><th>Sum of Rank</th></tr></thead><tbody><tr><td rowspan="3">{{Değişken}}</td><td>{{Group1}}</td><td>{{N1}}</td><td>{{MR1}}</td><td>{{SoR1}}</td></tr><tr><td>{{Group2}}</td><td>{{N2}}</td><td>{{MR2}}</td><td>{{SoR2}}</td></tr><tr><td>{{Total}}</td><td></td><td></td><td></td></tr></tbody></table><br>Test statistics <br> <table><thead><tr><th></th><th>Group</th><th>N</th><th>Mean Rank</th><th>Sum of Rank</th></tr></thead><tbody><tr><td rowspan="3">{{Değişken}}</td><td>{{Group1}}</td><td>{{N1}}</td><td>{{MR1}}</td><td>{{SoR1}}</td></tr><tr><td>{{Group2}}</td><td>{{N2}}</td><td>{{MR2}}</td><td>{{SoR2}}</td></tr><tr><td>{{Total}}</td><td></td><td></td><td></td></tr></tbody></table></body></html>'
+
+  outputFileName='Output' + '_MannWUTest_' +  str(uuid.uuid4().hex) + '.html'
+
+  with open(outputFileName,'wt') as outputFile:
+    outputFile.write(htmlOutput)
