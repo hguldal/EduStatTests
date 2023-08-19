@@ -297,7 +297,8 @@ def MannWhitneyU(df,variable1,variable2):
   groupStats=list()
   for item in dataCollection:
     group=dict()
-    group[item]={"N":dataCollection[item]["data"].count(),
+    group={"Group":item,
+              "N":dataCollection[item]["data"].count(),
                    "Mean":dataCollection[item]["data"].mean(),
                    "StdDev":dataCollection[item]["data"].std(),
                    "StdErr": dataCollection[item]["data"].sem()
@@ -307,7 +308,10 @@ def MannWhitneyU(df,variable1,variable2):
   # Create  dictionary object(dictReturn) to return stats
   dictReturn={
         "TestName":"mannwhitneyu",
-        # Groups statistics
+        "Ind_Variable":variable1,
+        "Dep_Variable":variable2,
+
+       # Groups statistics
         "groupStats":groupStats,
 
         # Mann-Whitney U Test results
@@ -341,7 +345,7 @@ def HtmlOutputIndTTest(testResult):
   
   htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><table><tr><td colspan="9" rowspan="1">Independent Samples Test</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="2" rowspan="1">Levene&rsquo;s Test for Equality of Variances</td><td colspan="3" rowspan="1">T-Test for Equality of Variances</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1">F</td><td colspan="1" rowspan="1">Sig.</td><td colspan="1" rowspan="1">t</td><td colspan="1" rowspan="1">df</td><td colspan="1" rowspan="1">Sig.(2-Tailed)</td></tr><tr><td colspan="1" rowspan="2">' + str(testResult['Ind_Variable']) + '</td><td colspan="1" rowspan="1">EqualVariancesAssumed</td><td colspan="1" rowspan="1">' + str(testResult['LeveneTest']['F']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['LeveneTest']['sigTwoTailed']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['sigTwoTailed']) +'</td></tr><tr><td colspan="1" rowspan="1">EqualVariancesNotAssumed</td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['sigTwoTailed']) +'</td></tr></table><br>Group Stats <br><table><thead><tr><th>' + str(testResult['Ind_Variable']) + '</th><th>N</th><th>Mean</th><th>Std. Deviation</th><th>Std. Error Mean</th></tr></thead><tbody><tr><td>' + str(testResult["groupStats"][0]["Group"])  +'</td><td>' + str(testResult["groupStats"][0]["N"])  +'</td><td>' + str(testResult["groupStats"][0]["Mean"])  +'</td><td>' + str(testResult["groupStats"][0]["StdDev"])  +'</td><td>' + str(testResult["groupStats"][0]["StdErr"])  +'</td></tr><tr><td>'+ str(testResult["groupStats"][1]["Group"])  +'</td><td>' + str(testResult["groupStats"][1]["N"])  +'</td><td>' + str(testResult["groupStats"][1]["Mean"])  +'</td><td>' + str(testResult["groupStats"][1]["StdDev"])  +'</td><td>' + str(testResult["groupStats"][1]["StdErr"])  +'</td></tr></tbody></table></body></html>'
  
-  outputFileName='Output' + '_' +  str(uuid.uuid4().hex) + '.html'
+  outputFileName='Output' + '_IndTTest_' +  str(uuid.uuid4().hex) + '.html'
 
   with open(outputFileName,'wt') as outputFile:
     outputFile.write(htmlOutput)
