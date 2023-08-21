@@ -29,7 +29,7 @@ Comma Seperates Values (CSV) is a widely used data exchange format. In EduStatTe
 
 The code below shows how to load data from CSV file into DataFrame object in EduStatTests.
 
-    data=LoadFromCSV("drive/MyDrive/Datasets/test/test_data.csv")
+    dfObj=LoadFromCSV("drive/MyDrive/Datasets/test/test_data.csv")
 
 **Loading data from Python Dictionary**
 
@@ -40,7 +40,7 @@ You can also load your data into the DataFrame in Python dictionary form by usin
     "Attitude":[1,2,1,3,4,1,1,3,4,1,3,1,2,1,4,1,4,1,4,3,3,1,1,1,1,1,3,1,3,1,1,1,1,1,1,1,1,4,3,1,4,4,1,2,1,1,1,1,1,2,4,1,4,2,1,4,1,4,1,1,1]
     }
     
-	data=LoadFromDict(dataDict)
+	dfObj=LoadFromDict(dataDict)
 
 ## Tests
 
