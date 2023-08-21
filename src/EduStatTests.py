@@ -266,6 +266,7 @@ Type: dictionary
 Description: Mann-Whitney U Test Stats
 """
 def MannWhitneyU(df,variable1,variable2):
+  from statistics import mean
 
   if df is None:
     raise Exception("No data loaded")
@@ -290,16 +291,14 @@ def MannWhitneyU(df,variable1,variable2):
   # Calculate Mann-Whitney U Test
   result = mannwhitneyu(data1, data2)
 
-  # Calculate Wilcoxon Signed-Rank Test
-  result2=wilcoxon(data1, data2)
-
   ranks=list()
   for item in dataCollection:
     group=dict()
+    meanRank=mean(dataCollection[item]["data"].rank())
     group={"Group":item,
               "N":dataCollection[item]["data"].count(),
-                   "MeanRank":dataCollection[item]["data"].rank(),
-                   "SumOfRanks": dataCollection[item]["data"].rank()*dataCollection[item]["data"].count()
+                   "MeanRank":round(meanRank,3),
+                   "SumOfRanks": round(meanRank*dataCollection[item]["data"].count(),3)
     }
     ranks.append(group)
 
@@ -314,14 +313,10 @@ def MannWhitneyU(df,variable1,variable2):
 
         # Mann-Whitney U Test results
         "MannWhitneyUTest":{
-            "u":result[0],
-            "sigTwoTailed":result[1]
-        },
-        # Wilcoxon Signed-Rank Test
-        "Wilcoxon":{
-            "w":result2[0],
-            "sigTwoTailed":result2[1]
+            "u":round(result[0],3),
+            "sigTwoTailed":round(result[1],3)
         }
+
   }
 
   return dictReturn
@@ -347,18 +342,21 @@ def HtmlOutputIndTTest(testResult):
   
   htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><table><tr><td colspan="9" rowspan="1">Independent Samples Test</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="2" rowspan="1">Levene&rsquo;s Test for Equality of Variances</td><td colspan="3" rowspan="1">T-Test for Equality of Variances</td></tr><tr><td colspan="2" rowspan="1"></td><td colspan="1" rowspan="1">F</td><td colspan="1" rowspan="1">Sig.</td><td colspan="1" rowspan="1">t</td><td colspan="1" rowspan="1">df</td><td colspan="1" rowspan="1">Sig.(2-Tailed)</td></tr><tr><td colspan="1" rowspan="2">' + str(testResult['Ind_Variable']) + '</td><td colspan="1" rowspan="1">EqualVariancesAssumed</td><td colspan="1" rowspan="1">' + str(testResult['LeveneTest']['F']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['LeveneTest']['sigTwoTailed']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['sigTwoTailed']) +'</td></tr><tr><td colspan="1" rowspan="1">EqualVariancesNotAssumed</td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1"></td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['t']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['TTest']['df']) +'</td><td colspan="1" rowspan="1">'+ str(testResult['WelchTest']['sigTwoTailed']) +'</td></tr></table><br>Group Stats <br><table><thead><tr><th>' + str(testResult['Ind_Variable']) + '</th><th>N</th><th>Mean</th><th>Std. Deviation</th><th>Std. Error Mean</th></tr></thead><tbody><tr><td>' + str(testResult["groupStats"][0]["Group"])  +'</td><td>' + str(testResult["groupStats"][0]["N"])  +'</td><td>' + str(testResult["groupStats"][0]["Mean"])  +'</td><td>' + str(testResult["groupStats"][0]["StdDev"])  +'</td><td>' + str(testResult["groupStats"][0]["StdErr"])  +'</td></tr><tr><td>'+ str(testResult["groupStats"][1]["Group"])  +'</td><td>' + str(testResult["groupStats"][1]["N"])  +'</td><td>' + str(testResult["groupStats"][1]["Mean"])  +'</td><td>' + str(testResult["groupStats"][1]["StdDev"])  +'</td><td>' + str(testResult["groupStats"][1]["StdErr"])  +'</td></tr></tbody></table></body></html>'
  
-  outputFileName='Output' + '_IndTTest_' +  str(uuid.uuid4().hex) + '.html'
+  outputFileName='IndTTest_' +  str(uuid.uuid4().hex) + '.html'
 
   with open(outputFileName,'wt') as outputFile:
     outputFile.write(htmlOutput)
+
+  print('The output file ' + outputFileName + ' was created successfully')
 
 def HtmlOutputMannWUTest(testResult):
 
   import uuid
 
-  htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><h3>Mann Whitney Test</h3> <br>Ranks<table><thead><tr><th></th><th>Group</th><th>N</th><th>Mean Rank</th><th>Sum of Rank</th></tr></thead><tbody><tr><td rowspan="3">{{Değişken}}</td><td>{{Group1}}</td><td>{{N1}}</td><td>{{MR1}}</td><td>{{SoR1}}</td></tr><tr><td>{{Group2}}</td><td>{{N2}}</td><td>{{MR2}}</td><td>{{SoR2}}</td></tr><tr><td>{{Total}}</td><td></td><td></td><td></td></tr></tbody></table><br>Test statistics <br> <table><thead><tr><th></th><th>Group</th><th>N</th><th>Mean Rank</th><th>Sum of Rank</th></tr></thead><tbody><tr><td rowspan="3">{{Değişken}}</td><td>{{Group1}}</td><td>{{N1}}</td><td>{{MR1}}</td><td>{{SoR1}}</td></tr><tr><td>{{Group2}}</td><td>{{N2}}</td><td>{{MR2}}</td><td>{{SoR2}}</td></tr><tr><td>{{Total}}</td><td></td><td></td><td></td></tr></tbody></table></body></html>'
+  htmlOutput='<html><head><metacontent="text/html;charset=UTF-8"http-equiv="content-type"><style>table,tr,th,td{border:1px black solid;}</style></head><body><h3>Mann Whitney Test</h3> <br>Ranks<table><thead><tr><th></th><th>Group</th><th>N</th><th>Mean Rank</th><th>Sum of Rank</th></tr></thead><tbody><tr><td rowspan="3">' + str(testResult['Ind_Variable']) + '</td><td>'+ str(testResult["ranks"][0]["Group"])  +'</td><td>' + str(testResult["ranks"][0]["N"])  +'</td><td>' + str(testResult["ranks"][0]["MeanRank"])  +'</td><td>' + str(testResult["ranks"][0]["SumOfRanks"])  +'</td></tr><tr><td>'+ str(testResult["ranks"][1]["Group"])  +'</td><td>' + str(testResult["ranks"][1]["N"])  +'</td><td>' + str(testResult["ranks"][1]["MeanRank"])  +'</td><td>' + str(testResult["ranks"][1]["SumOfRanks"])  +'</td></tr><tr><td></td><td>' + str(testResult["ranks"][0]["N"]+testResult["ranks"][1]["N"])  +'</td><td></td><td></td></tr></tbody></table><br>Test statistics <br> <table><thead><tr><th></th><th>' + str(testResult['Ind_Variable']) + '</th></tr></thead><tbody><tr><td>Mann-Whitney U</td><td>' + str(testResult['MannWhitneyUTest']['u']) + '</td></tr><tr><td>Sig.</td><td>' + str(testResult['MannWhitneyUTest']['sigTwoTailed']) + '</td></tr></tbody></table> </body></html>'
 
-  outputFileName='Output' + '_MannWUTest_' +  str(uuid.uuid4().hex) + '.html'
+  outputFileName='MannWUTest_' +  str(uuid.uuid4().hex) + '.html'
 
   with open(outputFileName,'wt') as outputFile:
     outputFile.write(htmlOutput)
+  print('The output file ' + outputFileName + ' was created successfully')
