@@ -67,7 +67,7 @@ You can perform Independent T-Test using **IndTTest** function in EduStatTests. 
 	print(results)
 
 ----------
-You can also see analysis results as html file on web browser using **HtmlOutputIndTTest** function. The code below shows how to results were saved as html file format.
+You can also see analysis results as html file on web browser using **HtmlOutput** function. The code below shows how to results were saved as html file format.
 	
     from EduStatTests import *
     dataDict={
@@ -78,7 +78,7 @@ You can also see analysis results as html file on web browser using **HtmlOutput
 	dfObj=LoadFromDict(dataDict)
     results=IndTTest(dfObj,"Gender","Attitude")
     
-    HtmlOutputIndTTest(results)
+    HtmlOutput(results)
 
 **Mann-Whitney U Test**
 
@@ -95,7 +95,7 @@ You can perform Mann-Whitney U Test using **MannWhitneyU** function in EduStatTe
 	print(results)
 
 ----------
-You can also see analysis results as html file on web browser using **HtmlOutputMannWUTest** function. The code below shows how to results were saved as html file format.
+You can also see analysis results as html file on web browser using **HtmlOutput** function. The code below shows how to results were saved as html file format.
 
     from EduStatTests import *
     dataDict={
@@ -104,6 +104,6 @@ You can also see analysis results as html file on web browser using **HtmlOutput
     }
 
 	dfObj=LoadFromDict(dataDict)
-    results=IndTTest(dfObj,"Gender","Attitude")
+    results=MannWhitneyU(dfObj,"Gender","Attitude")
 
-    HtmlOutputMannWUTest(results)
+    HtmlOutput(results)

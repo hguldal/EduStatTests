@@ -301,8 +301,8 @@ def MannWhitneyU(df,variable1,variable2):
 
     group={"Group":item,
               "N":dataCollection[item]["data"].count(),
-                   "SumofRanks":sum(dataCollection[item]["rank"]),
-                   "MeanRank":sum(dataCollection[item]["rank"])/dataCollection[item]["data"].count()
+                   "SumofRanks":round(sum(dataCollection[item]["rank"]),3),
+                   "MeanRank":round(sum(dataCollection[item]["rank"])/dataCollection[item]["data"].count(),3)
     }
     ranks.append(group)
 
