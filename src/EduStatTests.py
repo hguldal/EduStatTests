@@ -281,7 +281,8 @@ def MannWhitneyU(df,variable1,variable2):
 
   # Extract the groups from DataFrame and put into the dataCollection dictionary object
   for idx in df[variable1].value_counts().index:
-    dataCollection[idx]={"data":df.query(variable1 + "==" + str(idx))[variable2]}
+        dataCollection[idx]={"data":df.query(variable1 + "==" + str(idx))[variable2],"rank":df.query(variable1 + "==" + str(idx))['Rank']}
+
 
   # Extract the raw data from dictionary object to pass scipy.stats functions
   rawData=list()
@@ -294,13 +295,14 @@ def MannWhitneyU(df,variable1,variable2):
   result = mannwhitneyu(data1, data2)
 
   ranks=list()
+
   for item in dataCollection:
     group=dict()
-    meanRank=mean(dataCollection[item]["data"].rank())
+
     group={"Group":item,
               "N":dataCollection[item]["data"].count(),
-                   "MeanRank":round(meanRank,3),
-                   "SumOfRanks": round(meanRank*dataCollection[item]["data"].count(),3)
+                   "SumofRanks":sum(dataCollection[item]["rank"]),
+                   "MeanRank":sum(dataCollection[item]["rank"])/dataCollection[item]["data"].count()
     }
     ranks.append(group)
 
