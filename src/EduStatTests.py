@@ -274,6 +274,8 @@ def MannWhitneyU(df,variable1,variable2):
   if len(df[variable1].value_counts().index)>2:
     raise Exception("The number of groups cannot be greater than 2")
 
+  df['Rank']=df[variable2].rank()
+
   # Create a dictionary object for the store data and etc.
   dataCollection=dict()
 
